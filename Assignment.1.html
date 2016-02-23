@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html ng-app="student">
+<head>
+    <title></title>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script type="text/javascript">
+        var student = angular.module('student', []);
+        student.controller('names', function($scope){
+            $scope.student = {
+                firstName: "", lastName: ""
+            };
+            $scope.students = [];
+	    $scope.header1 = "First Name";
+	    $scope.header2 = "Last Name";
+            $scope.addStudent = function () {
+                $scope.students.push({ firstName: $scope.student.firstName, lastName: $scope.student.lastName });
+                $scope.student = {
+                    firstName: "", lastName: ""
+                };
+                document.getElementById("fN").focus();
+            };
+            $scope.removeName = function (index) {
+                $scope.students.splice(index, 1);
+                
+            };
+        });
+        
+    </script>
+    <style>
+        body {
+            background-color: #f1e2c5;
+        }
+        table {
+            width: 100%;
+            border: solid;
+            border-color:black;
+            -ms-align-content: center;
+            -webkit-align-content: center;
+            align-content: center;
+            background-color:#5ACDF3;
+            }        
+        th {
+            font-size:larger;
+            color:black;
+            border-bottom:double;
+
+        }
+        td {
+            -ms-align-content: center;
+            -webkit-align-content: center;
+            align-content: center;
+            color: #000000;
+            font-size: large;
+            font-style: oblique;
+            border: 1px solid #f1e2c5;
+            padding: 5px;
+            height: 20px;
+            width: 50%;            
+        }
+        tr:not(:first-child):hover {
+            background-color: #808080;
+        }
+        tr:nth-child(even) {
+            background-color:rgba(0, 0, 255, 0.31);
+        }
+        
+    </style>
+
+
+
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1><b>Students</b></h1>
+    <h3><span>Please Enter Student's Name:</span></h3>
+    <div ng-controller="names">
+        <form ng-submit="addStudent()">
+            <input id="fN" type="text" ng-model="student.firstName" placeholder="First Name" required/>
+            <input type="text" ng-model="student.lastName" placeholder="Last Name" required/>
+            <button type="submit">Submit</button>
+
+            <input ng-show="students.length > 0" type="text" ng-model="header1" placeholder="Collum 1 Name" required/>
+            <input ng-show="students.length > 0" type="text" ng-model="header2" placeholder="Collum 2 Name" required/>
+        </form>
+        <br />
+        <table ng-show="students.length > 0">
+            <thead>
+            	<tr>
+                    <th>{{header1}}</th>
+                    <th>{{header2}}</th>
+            	</tr>
+	    </thead>
+            <tr ng-repeat="name in students track by $index">
+                <td><strong>{{name.firstName}}</strong></td>
+                <td><strong>{{name.lastName}}</strong></td>
+                <td><button ng-click="removeName($index)">Delete</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
